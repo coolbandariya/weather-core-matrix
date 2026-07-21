@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Weather Analytics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Dynamic Weather <span>Dashboard</span></h1>
+            <p>Pinnacle Labs Web Dev Internship // Task 1</p>
+        </header>
+
+        <main class="search-section">
+            <div class="input-group">
+                <input type="text" id="city-input" placeholder="Enter global city name (e.g., Delhi, London)...">
+                <button id="search-btn">Fetch Data</button>
+            </div>
+        </main>
+
+        <section class="display-section" id="weather-display">
+            <div class="placeholder-msg">
+                <p>Telemetry system idle. Enter a city location to pull live meteorological variables.</p>
+            </div>
+        </section>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

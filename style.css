@@ -1,0 +1,188 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace; /* Tech/Terminal typography styling */
+}
+
+body {
+    background-color: #050508; /* Deep obsidian black */
+    color: #00FF66; /* Neon Matrix green text */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.dashboard-container {
+    background-color: #0A0D14; /* Cyberpunk card background */
+    border: 2px solid #00FF66;
+    box-shadow: 0 0 20px rgba(0, 255, 102, 0.2), inset 0 0 10px rgba(0, 255, 102, 0.1);
+    border-radius: 4px; /* Hard industrial edges look cleaner for tech themes */
+    width: 100%;
+    max-width: 550px;
+    padding: 2.5rem;
+    position: relative;
+}
+
+/* Futuristic corner accent brackets */
+.dashboard-container::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; width: 20px; height: 20px;
+    border-top: 4px solid #fff; border-left: 4px solid #fff;
+}
+
+.dashboard-header {
+    text-align: left;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px dashed #00FF66;
+    padding-bottom: 1rem;
+}
+
+.dashboard-header h1 {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.dashboard-header h1 span {
+    color: #00FF66;
+    text-shadow: 0 0 8px rgba(0, 255, 102, 0.6);
+}
+
+.dashboard-header p {
+    color: #8892B0;
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+    text-transform: uppercase;
+}
+
+.input-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+}
+
+input[type="text"] {
+    flex: 1;
+    background-color: #050508;
+    border: 1px solid #00FF66;
+    color: #fff;
+    padding: 0.9rem 1.2rem;
+    border-radius: 0;
+    outline: none;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+button {
+    background-color: #00FF66;
+    color: #050508;
+    border: none;
+    padding: 0 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background-color: #fff;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+.placeholder-msg {
+    text-align: center;
+    color: #8892B0;
+    font-size: 0.85rem;
+    padding: 2.5rem 1rem;
+    border: 1px dashed #00FF66;
+    background-color: rgba(0, 255, 102, 0.02);
+}
+
+.weather-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    animation: glitchIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.main-stat {
+    grid-column: span 2;
+    text-align: center;
+    background: rgba(0, 255, 102, 0.04);
+    border: 1px solid #00FF66;
+    padding: 2rem 1.5rem;
+    position: relative;
+}
+
+.main-stat h2 {
+    font-size: 1.5rem;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.temp-val {
+    font-size: 3.8rem;
+    font-weight: 900;
+    color: #00FF66;
+    margin: 0.5rem 0;
+    text-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+}
+
+.desc-val {
+    color: #FF007F; /* Neon Pink contrast for weather condition */
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 8px rgba(255, 0, 127, 0.3);
+}
+
+.data-node {
+    background-color: #050508;
+    border: 1px solid rgba(0, 255, 102, 0.3);
+    padding: 1.2rem;
+    text-align: left;
+    position: relative;
+}
+
+.node-label {
+    font-size: 0.75rem;
+    color: #8892B0;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+}
+
+.node-val {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.error-msg {
+    grid-column: span 2;
+    text-align: center;
+    color: #FF007F;
+    background: rgba(255, 0, 127, 0.05);
+    border: 1px solid #FF007F;
+    padding: 1.2rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 5px rgba(255, 0, 127, 0.2);
+}
+
+@keyframes glitchIn {
+    0% { opacity: 0; transform: scale(0.98); filter: hue-rotate(90deg); }
+    100% { opacity: 1; transform: scale(1); filter: hue-rotate(0deg); }
+}
