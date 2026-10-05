@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Live city weather dashboard with current temperature, humidity, wind and visibility.">
     <title>Real-Time Weather Analytics</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,13 +15,14 @@
         </header>
 
         <main class="search-section">
-            <div class="input-group">
-                <input type="text" id="city-input" placeholder="Enter global city name (e.g., Delhi, London)...">
-                <button id="search-btn">Fetch Data</button>
-            </div>
+            <form class="input-group" id="weather-form">
+                <label class="sr-only" for="city-input">City name</label>
+                <input type="search" id="city-input" name="city" placeholder="Enter global city name (e.g., Delhi, London)..." autocomplete="address-level2" maxlength="100" required>
+                <button id="search-btn" type="submit">Fetch Data</button>
+            </form>
         </main>
 
-        <section class="display-section" id="weather-display">
+        <section class="display-section" id="weather-display" aria-live="polite" aria-busy="false">
             <div class="placeholder-msg">
                 <p>Telemetry system idle. Enter a city location to pull live meteorological variables.</p>
             </div>
