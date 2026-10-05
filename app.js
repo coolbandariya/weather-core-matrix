@@ -1,13 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("weather-form");
     const searchBtn = document.getElementById("search-btn");
     const cityInput = document.getElementById("city-input");
     const displayArea = document.getElementById("weather-display");
 
-    if (!searchBtn || !cityInput || !displayArea) return;
+    if (!form || !searchBtn || !cityInput || !displayArea) return;
 
-    searchBtn.addEventListener("click", executeQuery);
-    cityInput.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") executeQuery();
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        executeQuery();
     });
 
     function showMessage(className, message) {
@@ -21,19 +22,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function executeQuery() {
         const city = cityInput.value.trim();
-        if (!city) {
-            showMessage("error-msg", "Enter a city name to search.");
+        if (city.length < 2) {
+            showMessage("error-msg", "Enter at least two characters for a city name.");
             cityInput.focus();
             return;
         }
 
         searchBtn.disabled = true;
+        displayArea.setAttribute("aria-busy", "true");
         showMessage("placeholder-msg", "Loading current weather…");
+
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(() => controller.abort(), 10000);
 
         try {
             const response = await fetch(
                 `https://wttr.in/${encodeURIComponent(city)}?format=j1`,
-                { headers: { Accept: "application/json" } }
+                {
+                    headers: { Accept: "application/json" },
+                    signal: controller.signal,
+                }
             );
             if (!response.ok) {
                 throw new Error(response.status === 404
@@ -44,13 +52,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
             renderWeather(data);
         } catch (error) {
-            showMessage(
-                "error-msg",
-                error instanceof TypeError
+            const message = error?.name === "AbortError"
+                ? "The weather service took too long to respond. Please try again."
+                : error instanceof TypeError
                     ? "Could not reach the weather service. Check your connection and try again."
-                    : (error instanceof Error ? error.message : "Weather data could not be loaded.")
-            );
+                    : (error instanceof Error ? error.message : "Weather data could not be loaded.");
+            showMessage("error-msg", message);
         } finally {
+            window.clearTimeout(timeoutId);
+            displayArea.setAttribute("aria-busy", "false");
             searchBtn.disabled = false;
         }
     }
@@ -75,11 +85,15 @@ document.addEventListener("DOMContentLoaded", () => {
         heading.textContent = `${value(area.areaName)}, ${value(area.country)}`;
         const temperature = document.createElement("div");
         temperature.className = "temp-val";
+        temperature.setAttribute("aria-label", `${current.temp_C ?? "Unknown"} degrees Celsius`);
         temperature.textContent = `${current.temp_C ?? "—"}°C`;
         const description = document.createElement("div");
         description.className = "desc-val";
         description.textContent = value(current.weatherDesc);
-        main.append(heading, temperature, description);
+        const source = document.createElement("p");
+        source.className = "source-note";
+        source.textContent = `Source: wttr.in · Observed ${current.localObsDateTime || "time unavailable"}`;
+        main.append(heading, temperature, description, source);
 
         const addMetric = (label, metric, unit) => {
             const node = document.createElement("div");
